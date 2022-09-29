@@ -11,6 +11,7 @@ import com.big.backend.services.EwteamService;
 
 import java.util.List;
 
+@CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
 @RequestMapping("/ewteam")
 public class EwteamController {
@@ -22,7 +23,7 @@ public class EwteamController {
     }
 
     @GetMapping
-    public ResponseEntity<?> GetAll(){
+    public ResponseEntity<?> getAll(){
         List<Ewteam> ewteams = ewteamService.GetAll();
         if (ewteams != null) {
             return new ResponseEntity<>(ewteams, HttpStatus.OK);
@@ -33,7 +34,7 @@ public class EwteamController {
     }
 
     @GetMapping(path = "/find/{id}")
-    public ResponseEntity<Ewteam> GetById(@PathVariable("id") Long id){
+    public ResponseEntity<Ewteam> getById(@PathVariable("id") Long id){
         try {
             var team = ewteamService.findTeamById(id);
             return new ResponseEntity<>(team, HttpStatus.OK);

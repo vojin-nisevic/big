@@ -17,7 +17,7 @@ public class EwteamService {
     }
 
     public List<Ewteam> GetAll(){
-        return ewteamRepository.findAll();
+        return ewteamRepository.findAllByOrderById();
     }
 
     public Ewteam addEwteam(Ewteam ewteam) {

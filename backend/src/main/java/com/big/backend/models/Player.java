@@ -1,5 +1,8 @@
 package com.big.backend.models;
 
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.boot.context.properties.bind.DefaultValue;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -20,6 +23,18 @@ public class Player {
     @Column(nullable = false, unique = true, length = 16)
     private String currentName;
 
+    @Min(50000)
+    @Column(nullable = false)
+    private int marchSize;
+
+
+
+    @Min(-12)
+    @Max(12)
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int timeZone;
+
     @Min(1)
     @Max(40)
     @Column(nullable = false)
@@ -29,17 +44,36 @@ public class Player {
     @Column(nullable = false)
     private Long killCount;
 
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "frontrow_id")
+    private FrontRow frontRow;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "backrow_id")
+    private BackRow backRow;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ewteam_id")
     private Ewteam ewTeam;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "merit_rank")
+    private MeritRank meritRank;
+
 
     //region constructors
-    public Player(String originalName, String currentName, int castleLevel, Long killCount) {
+    public Player(String originalName, String currentName, int marchSize, int timeZone, int castleLevel, Long killCount,
+                  FrontRow frontRow, BackRow backRow, Ewteam ewTeam) {
         this.originalName = originalName;
         this.currentName = currentName;
+        this.marchSize = marchSize;
+        this.timeZone = timeZone;
         this.castleLevel = castleLevel;
         this.killCount = killCount;
+        this.frontRow = frontRow;
+        this.backRow = backRow;
+        this.ewTeam = ewTeam;
     }
 
     public Player() {
@@ -51,10 +85,6 @@ public class Player {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getOriginalName() {
@@ -73,6 +103,14 @@ public class Player {
         this.currentName = currentName;
     }
 
+    public int getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(int timeZone) {
+        this.timeZone = timeZone;
+    }
+
     public int getCastleLevel() {
         return castleLevel;
     }
@@ -87,6 +125,14 @@ public class Player {
 
     public void setKillCount(Long killCount) {
         this.killCount = killCount;
+    }
+
+    public int getMarchSize() {
+        return marchSize;
+    }
+
+    public void setMarchSize(int marchSize) {
+        this.marchSize = marchSize;
     }
 
     public Ewteam getEwTeam() {

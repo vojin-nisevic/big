@@ -23,19 +23,19 @@ public class PlayerController {
 
     @GetMapping()
     public ResponseEntity<List<Player>> getAll(){
-        var list = playerService.GetAll();
+        List<Player> list = playerService.GetAll();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping(path = "/add")
     public ResponseEntity<Player> add(@RequestBody Player player){
-        var newPlayer = playerService.Add(player);
+        Player newPlayer = playerService.Add(player);
         return new ResponseEntity<>(newPlayer, HttpStatus.CREATED);
     }
 
     @GetMapping(path = "/byteam/{id}")
     public ResponseEntity<List<Player>> findPlayersByTeam(@PathVariable("id") Long id){
-        var list = playerService.FindPlayerByEwteam(id);
+        List<Player> list = playerService.FindPlayerByEwteam(id);
         return  new ResponseEntity<>(list, HttpStatus.OK);
     }
 }
