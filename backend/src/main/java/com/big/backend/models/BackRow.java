@@ -9,6 +9,7 @@ import java.util.List;
 @Table(name = "back_row")
 public class BackRow {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
@@ -42,5 +43,44 @@ public class BackRow {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public static final class BackRowBuilder {
+
+        private Long id;
+        private String name;
+
+
+        private BackRowBuilder() {
+        }
+
+        public static BackRow.BackRowBuilder anBackRowBuilder() {
+            return new BackRow.BackRowBuilder();
+        }
+
+        public BackRow.BackRowBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public BackRow.BackRowBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public BackRow build() {
+            BackRow backRow = new BackRow();
+            backRow.setId(id);
+            backRow.setName(name);
+            return backRow;
+        }
     }
 }

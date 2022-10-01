@@ -44,7 +44,7 @@ public class MeritRankGenerator {
         else {
             LOGGER.info("Creating merit ranks.");
             MeritRank tmp;
-            for (int i = 0; i < namePool.length - 1; i++){
+            for (int i = 0; i < namePool.length; i++){
                 tmp = _meritRankRepository.save(MeritRank.MeritRankBuilder.anMeritRankBuilder()
                         .withName(namePool[i])
                         .build()

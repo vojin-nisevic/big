@@ -9,6 +9,7 @@ import java.util.List;
 @Table(name = "front_row")
 public class FrontRow {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, updatable = false)
@@ -48,6 +49,47 @@ public class FrontRow {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    //endregion
+
+    //region DATA GENERATOR
+
+    public static final class FrontRowBuilder {
+        private Long id;
+        private String name;
+
+        private FrontRowBuilder() {
+        }
+
+        public static FrontRow.FrontRowBuilder anFrontRowBuilder() {
+            return new FrontRow.FrontRowBuilder();
+        }
+
+        public FrontRow.FrontRowBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public FrontRow.FrontRowBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public FrontRow build() {
+            FrontRow frontRow = new FrontRow();
+            frontRow.setId(id);
+            frontRow.setName(name);
+            return frontRow;
+        }
     }
 
     //endregion

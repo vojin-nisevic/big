@@ -19,6 +19,8 @@ public class Ewteam {
     @OneToMany(mappedBy = "ewTeam", fetch = FetchType.LAZY, targetEntity = Player.class)
     private List<Player> players = new ArrayList<>();
 
+
+    //region CONSTRUCTOR SET GET
     public Ewteam() {
     }
 
@@ -51,4 +53,42 @@ public class Ewteam {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    //endregion
+
+    //region DATA GENERATOR
+
+    public static final class EwteamBuilder {
+        private Long id;
+        private String name;
+
+        private List<Player> players;
+
+        private EwteamBuilder() {
+
+        }
+
+        public static EwteamBuilder anEwteamBuilder() {
+            return new EwteamBuilder();
+        }
+
+        public EwteamBuilder withId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public EwteamBuilder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Ewteam build() {
+            Ewteam ewteam = new Ewteam();
+            ewteam.setId(id);
+            ewteam.setName(name);
+            return ewteam;
+        }
+    }
+
+    //endregion
 }

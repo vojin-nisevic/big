@@ -1,7 +1,6 @@
 package com.big.backend.models;
 
 import org.hibernate.annotations.ColumnDefault;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -61,10 +60,15 @@ public class Player {
     @JoinColumn(name = "merit_rank")
     private MeritRank meritRank;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "alliance_rank_id")
+    private AllianceRank allianceRank;
+
+
 
     //region constructors
     public Player(String originalName, String currentName, int marchSize, int timeZone, int castleLevel, Long killCount,
-                  FrontRow frontRow, BackRow backRow, Ewteam ewTeam) {
+                  FrontRow frontRow, BackRow backRow, Ewteam ewTeam, MeritRank meritRank, AllianceRank allianceRank) {
         this.originalName = originalName;
         this.currentName = currentName;
         this.marchSize = marchSize;
@@ -74,6 +78,8 @@ public class Player {
         this.frontRow = frontRow;
         this.backRow = backRow;
         this.ewTeam = ewTeam;
+        this.meritRank = meritRank;
+        this.allianceRank = allianceRank;
     }
 
     public Player() {
@@ -141,6 +147,22 @@ public class Player {
 
     public void setEwTeam(Ewteam ewTeam) {
         this.ewTeam = ewTeam;
+    }
+
+    public MeritRank getMeritRank() {
+        return meritRank;
+    }
+
+    public void setMeritRank(MeritRank meritRank) {
+        this.meritRank = meritRank;
+    }
+
+    public AllianceRank getAllianceRank() {
+        return allianceRank;
+    }
+
+    public void setAllianceRank(AllianceRank allianceRank) {
+        this.allianceRank = allianceRank;
     }
 
     //endregion
