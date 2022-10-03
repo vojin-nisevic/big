@@ -25,12 +25,12 @@ public class EwteamController {
     @GetMapping
     public ResponseEntity<?> getAll(){
         List<Ewteam> ewteams = ewteamService.GetAll();
-        if (ewteams != null) {
+//        if (ewteams != null) {
             return new ResponseEntity<>(ewteams, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(new EwTeamNotFoundException("No teams"), HttpStatus.NOT_FOUND); //
-        }
+//        }
+//        else {
+//            return new ResponseEntity<>(new EwTeamNotFoundException("No teams"), HttpStatus.NOT_FOUND); //
+//        }
     }
 
     @GetMapping(path = "/find/{id}")
