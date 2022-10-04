@@ -4,16 +4,14 @@ import org.springframework.http.HttpStatus;
 
 import java.time.ZonedDateTime;
 
-public class NotFoundException {
+public class CustomException {
+
     private final String message;
     private final HttpStatus httpStatus;
-
-
-
     private final int status;
     private final ZonedDateTime timestamp;
 
-    public NotFoundException(String message, HttpStatus httpStatus, int status, ZonedDateTime timestamp) {
+    public CustomException(String message, HttpStatus httpStatus, int status, ZonedDateTime timestamp) {
         this.message = message;
         this.httpStatus = httpStatus;
         this.status = status;
@@ -28,12 +26,11 @@ public class NotFoundException {
         return httpStatus;
     }
 
-    public ZonedDateTime getTimestamp() {
-        return timestamp;
-    }
-
     public int getStatus() {
         return status;
     }
 
+    public ZonedDateTime getTimestamp() {
+        return timestamp;
+    }
 }
