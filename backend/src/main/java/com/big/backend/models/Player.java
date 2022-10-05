@@ -27,7 +27,6 @@ public class Player {
     private int marchSize;
 
 
-
     @Min(-12)
     @Max(12)
     @Column(nullable = false)
@@ -41,8 +40,20 @@ public class Player {
 
     @Min(0)
     @Column(nullable = false)
+    @ColumnDefault("0")
     private Long killCount;
 
+    //Health points
+    @Min(0)
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int hp;
+
+    //back row troops attack
+    @Min(0)
+    @Column(nullable = false)
+    @ColumnDefault("0")
+    private int attack;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "frontrow_id")
@@ -63,7 +74,6 @@ public class Player {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "alliance_rank_id")
     private AllianceRank allianceRank;
-
 
 
     //region constructors
@@ -88,6 +98,11 @@ public class Player {
     //endregion
 
     //region getters and setters
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     public Long getId() {
         return id;
@@ -131,6 +146,38 @@ public class Player {
 
     public void setKillCount(Long killCount) {
         this.killCount = killCount;
+    }
+
+    public int getHp() {
+        return hp;
+    }
+
+    public void setHp(int hp) {
+        this.hp = hp;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public void setAttack(int attack) {
+        this.attack = attack;
+    }
+
+    public FrontRow getFrontRow() {
+        return frontRow;
+    }
+
+    public void setFrontRow(FrontRow frontRow) {
+        this.frontRow = frontRow;
+    }
+
+    public BackRow getBackRow() {
+        return backRow;
+    }
+
+    public void setBackRow(BackRow backRow) {
+        this.backRow = backRow;
     }
 
     public int getMarchSize() {
@@ -178,4 +225,5 @@ public class Player {
                 ", killCount=" + killCount +
                 '}';
     }
+
 }
