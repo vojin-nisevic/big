@@ -1,5 +1,6 @@
 package com.big.backend.models;
 
+import com.big.backend.modelsDto.PlayerDto;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -75,6 +76,17 @@ public class Player {
     @JoinColumn(name = "alliance_rank_id")
     private AllianceRank allianceRank;
 
+    @Transient
+    public PlayerDto toDto() {
+        PlayerDto dto = new PlayerDto();
+        dto.setId(id);
+        dto.setOriginalName(originalName);
+        dto.setCurrentName(currentName);
+        dto.setCastleLevel(castleLevel);
+        dto.setFrontRow(frontRow);
+        dto.setBackRow(backRow);
+        return dto;
+    }
 
     //region constructors
     public Player(String originalName, String currentName, int marchSize, int timeZone, int castleLevel, Long killCount,

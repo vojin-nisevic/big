@@ -1,5 +1,6 @@
 package com.big.backend.controllers;
 
+import com.big.backend.modelsDto.PlayerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import com.big.backend.models.Player;
 import com.big.backend.services.PlayerService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = {"http://localhost:8080"})
 @RestController
@@ -21,9 +23,10 @@ public class PlayerController {
         this.playerService = playerService;
     }
 
+    //returns list of dto for player
     @GetMapping()
-    public ResponseEntity<List<Player>> getAll(){
-        List<Player> list = playerService.GetAll();
+    public ResponseEntity<List<PlayerDto>> getAll(){
+        List<PlayerDto> list = playerService.GetAll().stream().map(player -> player.toDto()).collect(Collectors.toList());
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
