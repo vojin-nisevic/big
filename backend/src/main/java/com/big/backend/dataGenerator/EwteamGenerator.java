@@ -1,7 +1,7 @@
 package com.big.backend.dataGenerator;
 
-import com.big.backend.models.Ewteam;
-import com.big.backend.repositories.EwteamRepository;
+import com.big.backend.models.ElWarTeam;
+import com.big.backend.repositories.ElWarTeamRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
@@ -17,15 +17,15 @@ public class EwteamGenerator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final EwteamRepository _ewteamRepository;
+    private final ElWarTeamRepository _elWarTeamRepository;
 
-    private final ArrayList<Ewteam> ewteams;
+    private final ArrayList<ElWarTeam> elWarTeams;
 
     private final String[] namePool;
 
-    public EwteamGenerator(EwteamRepository ewteamRepository) {
-        _ewteamRepository = ewteamRepository;
-        ewteams = new ArrayList<>();
+    public EwteamGenerator(ElWarTeamRepository elWarTeamRepository) {
+        _elWarTeamRepository = elWarTeamRepository;
+        elWarTeams = new ArrayList<>();
         namePool = new String[]{
                 "Red", "Green", "Blue"
         };
@@ -33,18 +33,18 @@ public class EwteamGenerator {
 
     @PostConstruct
     public void generateData() {
-        if (_ewteamRepository.findAll().size() > 0) {
+        if (_elWarTeamRepository.findAll().size() > 0) {
             LOGGER.info("Elite wars teams created, skipping creation.");
         } else {
             LOGGER.info("Creating Elite wars teams.");
-            Ewteam tmp;
+            ElWarTeam tmp;
             for (int i = 0; i < namePool.length; i++) {
-                tmp = _ewteamRepository.save(Ewteam.EwteamBuilder.anEwteamBuilder()
+                tmp = _elWarTeamRepository.save(ElWarTeam.ElWarTeamBuilder.anEwteamBuilder()
                         .withName(namePool[i])
                         .build()
                 );
                 LOGGER.info("Elite wars team '{} {}' created.", tmp.getId(), tmp.getName());
-                ewteams.add(tmp);
+                elWarTeams.add(tmp);
             }
         }
     }

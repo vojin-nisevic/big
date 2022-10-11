@@ -5,9 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.big.backend.exceptions.EwTeamNotFoundException;
-import com.big.backend.models.Ewteam;
-import com.big.backend.services.EwteamService;
+import com.big.backend.models.ElWarTeam;
+import com.big.backend.services.ElWarTeamService;
 
 import java.util.List;
 
@@ -15,18 +14,18 @@ import java.util.List;
 @RestController
 @RequestMapping("/ewteam")
 public class EwteamController {
-    private final EwteamService ewteamService;
+    private final ElWarTeamService elWarTeamService;
 
     @Autowired
-    public EwteamController(EwteamService ewteamService) {
-        this.ewteamService = ewteamService;
+    public EwteamController(ElWarTeamService elWarTeamService) {
+        this.elWarTeamService = elWarTeamService;
     }
 
     @GetMapping
     public ResponseEntity<?> getAll(){
-        List<Ewteam> ewteams = ewteamService.GetAll();
+        List<ElWarTeam> elWarTeams = elWarTeamService.getAll();
 //        if (ewteams != null) {
-            return new ResponseEntity<>(ewteams, HttpStatus.OK);
+            return new ResponseEntity<>(elWarTeams, HttpStatus.OK);
 //        }
 //        else {
 //            return new ResponseEntity<>(new EwTeamNotFoundException("No teams"), HttpStatus.NOT_FOUND); //
@@ -34,9 +33,9 @@ public class EwteamController {
     }
 
     @GetMapping(path = "/find/{id}")
-    public ResponseEntity<Ewteam> getById(@PathVariable("id") Long id){
+    public ResponseEntity<ElWarTeam> getById(@PathVariable("id") Long id){
         try {
-            var team = ewteamService.findTeamById(id);
+            var team = elWarTeamService.findTeamById(id);
             return new ResponseEntity<>(team, HttpStatus.OK);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -44,20 +43,20 @@ public class EwteamController {
     }
 
     @PutMapping(path = "/edit") // TODO: edit with id
-    public ResponseEntity<Ewteam> updateEwTeam(@RequestBody Ewteam ewteam){
-        var team = ewteamService.updateEwteam(ewteam);
+    public ResponseEntity<ElWarTeam> updateEwTeam(@RequestBody ElWarTeam elWarTeam){
+        var team = elWarTeamService.updateEwteam(elWarTeam);
         return  new ResponseEntity<>(team, HttpStatus.OK);
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Ewteam> add(@RequestBody Ewteam ewteam){
-        var team = ewteamService.addEwteam(ewteam);
+    public ResponseEntity<ElWarTeam> add(@RequestBody ElWarTeam elWarTeam){
+        var team = elWarTeamService.addEwteam(elWarTeam);
         return new ResponseEntity<>(team, HttpStatus.CREATED);
     }
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<?> deleteEwTeamById(@PathVariable("id") Long id){
-        ewteamService.deleteEwteam(id);
+        elWarTeamService.deleteEwteam(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

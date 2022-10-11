@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity()
 @Table(uniqueConstraints = {@UniqueConstraint(name = "ewteam_name", columnNames = "name")})
-public class Ewteam {
+public class ElWarTeam {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +21,11 @@ public class Ewteam {
 
 
     //region CONSTRUCTOR SET GET
-    public Ewteam() {
+    public ElWarTeam() {
     }
 
 
-    public Ewteam(String name) {
+    public ElWarTeam(String name) {
         this.name = name;
     }
 
@@ -58,35 +58,35 @@ public class Ewteam {
 
     //region DATA GENERATOR
 
-    public static final class EwteamBuilder {
+    public static final class ElWarTeamBuilder {
         private Long id;
         private String name;
 
         private List<Player> players;
 
-        private EwteamBuilder() {
+        private ElWarTeamBuilder() {
 
         }
 
-        public static EwteamBuilder anEwteamBuilder() {
-            return new EwteamBuilder();
+        public static ElWarTeamBuilder anEwteamBuilder() {
+            return new ElWarTeamBuilder();
         }
 
-        public EwteamBuilder withId(Long id) {
+        public ElWarTeamBuilder withId(Long id) {
             this.id = id;
             return this;
         }
 
-        public EwteamBuilder withName(String name) {
+        public ElWarTeamBuilder withName(String name) {
             this.name = name;
             return this;
         }
 
-        public Ewteam build() {
-            Ewteam ewteam = new Ewteam();
-            ewteam.setId(id);
-            ewteam.setName(name);
-            return ewteam;
+        public ElWarTeam build() {
+            ElWarTeam elWarTeam = new ElWarTeam();
+            elWarTeam.setId(id);
+            elWarTeam.setName(name);
+            return elWarTeam;
         }
     }
 

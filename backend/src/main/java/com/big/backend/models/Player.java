@@ -1,6 +1,7 @@
 package com.big.backend.models;
 
 import com.big.backend.modelsDto.PlayerDto;
+import com.big.backend.modelsDto.PlayerElWarDto;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -56,24 +57,24 @@ public class Player {
     @ColumnDefault("0")
     private int attack;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "frontrow_id")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "frontrow_id", foreignKey = @ForeignKey(name = "FK_PLAYER_FRONT_ROW"))
     private FrontRow frontRow;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "backrow_id")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "backrow_id", foreignKey = @ForeignKey(name = "FK_PLAYER_BACK_ROW"))
     private BackRow backRow;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ewteam_id")
-    private Ewteam ewTeam;
+    @JoinColumn(name = "ewteam_id", foreignKey = @ForeignKey(name = "FK_PLAYER_EL_WAR_TEAM"))
+    private ElWarTeam ewTeam;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "merit_rank")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "merit_rank", foreignKey = @ForeignKey(name = "FK_PLAYER_MERIT_RANK"))
     private MeritRank meritRank;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "alliance_rank_id")
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "alliance_rank_id", foreignKey = @ForeignKey(name = "FK_PLAYER_ALLIANCE_RANK"))
     private AllianceRank allianceRank;
 
     @Transient
@@ -88,9 +89,24 @@ public class Player {
         return dto;
     }
 
+    @Transient
+    public PlayerElWarDto toElWarDto() {
+        PlayerElWarDto dto = new PlayerElWarDto();
+        dto.setId(id);
+        dto.setCurrentName(currentName);
+        dto.setMarchSize(marchSize);
+        dto.setCastleLevel(castleLevel);
+        dto.setHp(hp);
+        dto.setAttack(attack);
+        dto.setFrontRow(frontRow);
+        dto.setBackRow(backRow);
+        dto.setEwTeam(ewTeam);
+        return dto;
+    }
+
     //region constructors
     public Player(String originalName, String currentName, int marchSize, int timeZone, int castleLevel, Long killCount,
-                  FrontRow frontRow, BackRow backRow, Ewteam ewTeam, MeritRank meritRank, AllianceRank allianceRank) {
+                  FrontRow frontRow, BackRow backRow, ElWarTeam ewTeam, MeritRank meritRank, AllianceRank allianceRank) {
         this.originalName = originalName;
         this.currentName = currentName;
         this.marchSize = marchSize;
@@ -200,11 +216,11 @@ public class Player {
         this.marchSize = marchSize;
     }
 
-    public Ewteam getEwTeam() {
+    public ElWarTeam getEwTeam() {
         return ewTeam;
     }
 
-    public void setEwTeam(Ewteam ewTeam) {
+    public void setEwTeam(ElWarTeam ewTeam) {
         this.ewTeam = ewTeam;
     }
 
