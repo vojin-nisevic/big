@@ -1,5 +1,6 @@
 package com.big.backend.models;
 
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class MeritRank {
     private String name;
 
     @OneToMany(mappedBy = "meritRank", fetch = FetchType.LAZY, targetEntity = Player.class)
+//    @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
 
@@ -26,10 +28,9 @@ public class MeritRank {
     public MeritRank() {
     }
 
-    public MeritRank(Long id, String name, List<Player> players) {
+    public MeritRank(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.players = players;
     }
 
     //endregion
@@ -52,13 +53,13 @@ public class MeritRank {
         this.name = name;
     }
 
-    public List<Player> getPlayers() {
-        return players;
-    }
+//    public List<Player> getPlayers() {
+//        return players;
+//    }
 
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
+//    public void setPlayers(List<Player> players) {
+//        this.players = players;
+//    }
 
     @Override
     public String toString() {
@@ -100,7 +101,6 @@ public class MeritRank {
             MeritRank meritRank = new MeritRank();
             meritRank.setId(id);
             meritRank.setName(name);
-            meritRank.setPlayers(players);
             return meritRank;
         }
 

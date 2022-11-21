@@ -1,5 +1,6 @@
 package com.big.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class AllianceRank {
     private String description;
 
     @OneToMany(mappedBy = "allianceRank", fetch = FetchType.LAZY)
+//    @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
     //region DATA GENERATE
@@ -116,9 +118,9 @@ public class AllianceRank {
         this.description = description;
     }
 
-    public List<Player> getPlayers() {
-        return players;
-    }
+//    public List<Player> getPlayers() {
+//        return players;
+//    }
 
     public void setPlayers(List<Player> players) {
         this.players = players;

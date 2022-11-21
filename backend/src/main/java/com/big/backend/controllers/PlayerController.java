@@ -46,7 +46,7 @@ public class PlayerController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Player> get(@PathVariable("id") Long id) {
+    public ResponseEntity<Player> getById(@PathVariable("id") Long id) {
         Player player = playerService.getById(id);
         return new ResponseEntity<>(player, HttpStatus.OK);
     }
@@ -88,11 +88,14 @@ public class PlayerController {
     @GetMapping(path = "/byteam/{id}")
     public ResponseEntity<List<PlayerElWarDto>> findPlayersByTeam(@PathVariable("id") Long id) {
         System.out.println("TEST");
-        List<PlayerElWarDto> list = playerService.findPlayerByElWarTeam(id)
-                .stream().map(Player::toElWarDto).collect(Collectors.toList());
-        if (list.size() == 0){
-            throw new RequestCustomException("No players belonging to this team", 404);
+        List<Player> list = playerService.findPlayerByElWarTeam(id);
+        if (list.size() == 0) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
         }
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        List<PlayerElWarDto> listResult = list.stream().map(Player::toElWarDto).collect(Collectors.toList());
+//        if (list.size() == 0){
+//            throw new RequestCustomException("No players belonging to this team", 404);
+//        }
+        return new ResponseEntity<>(listResult, HttpStatus.OK);
     }
 }

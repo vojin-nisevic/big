@@ -71,9 +71,9 @@ public class PlayerService {
     public List<Player> findPlayerByElWarTeam(Long team) {
         ElWarTeam elWarTeam = elWarTeamRepository.findEwteamById(team);
         List<Player> players = playerRepository.findPlayerByewTeam(elWarTeam);
-        if (players == null || players.size() == 0) {
-            throw new RequestCustomException("Team: " + elWarTeam.getName() + " has no players!");
-        }
+//        if (players == null || players.size() == 0) {
+//            throw new RequestCustomException("Team: " + elWarTeam.getName() + " has no players!");
+//        }
         return players;
     }
 

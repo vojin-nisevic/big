@@ -1,5 +1,7 @@
 package com.big.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ public class ElWarTeam {
     private String name;
 
     @OneToMany(mappedBy = "ewTeam", fetch = FetchType.LAZY, targetEntity = Player.class)
+//    @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
 

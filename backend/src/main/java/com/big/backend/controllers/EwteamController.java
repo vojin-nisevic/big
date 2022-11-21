@@ -1,5 +1,6 @@
 package com.big.backend.controllers;
 
+import com.big.backend.modelsDto.ElWarTeamsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class EwteamController {
 
     @GetMapping
     public ResponseEntity<?> getAll(){
-        List<ElWarTeam> elWarTeams = elWarTeamService.getAll();
+        List<ElWarTeamsDto> elWarTeams = elWarTeamService.getAllWithPlayers();
 //        if (ewteams != null) {
             return new ResponseEntity<>(elWarTeams, HttpStatus.OK);
 //        }

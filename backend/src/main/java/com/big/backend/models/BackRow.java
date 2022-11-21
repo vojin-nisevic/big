@@ -1,5 +1,7 @@
 package com.big.backend.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ public class BackRow {
     private String name;
 
     @OneToMany(mappedBy = "backRow", fetch = FetchType.LAZY, targetEntity = Player.class)
+//    @JsonManagedReference
     private List<Player> players = new ArrayList<>();
 
     public BackRow() {

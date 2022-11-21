@@ -2,6 +2,7 @@ package com.big.backend.models;
 
 import com.big.backend.modelsDto.PlayerDto;
 import com.big.backend.modelsDto.PlayerElWarDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -59,22 +60,27 @@ public class Player {
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "frontrow_id", foreignKey = @ForeignKey(name = "FK_PLAYER_FRONT_ROW"))
+//    @JsonBackReference
     private FrontRow frontRow;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "backrow_id", foreignKey = @ForeignKey(name = "FK_PLAYER_BACK_ROW"))
+//    @JsonBackReference
     private BackRow backRow;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ewteam_id", foreignKey = @ForeignKey(name = "FK_PLAYER_EL_WAR_TEAM"))
+//    @JsonBackReference
     private ElWarTeam ewTeam;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "merit_rank", foreignKey = @ForeignKey(name = "FK_PLAYER_MERIT_RANK"))
+//    @JsonBackReference
     private MeritRank meritRank;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "alliance_rank_id", foreignKey = @ForeignKey(name = "FK_PLAYER_ALLIANCE_RANK"))
+//    @JsonBackReference
     private AllianceRank allianceRank;
 
     @Transient
