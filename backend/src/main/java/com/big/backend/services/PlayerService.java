@@ -26,6 +26,10 @@ public class PlayerService {
         this.elWarTeamRepository = elWarTeamRepository;
     }
 
+    /**
+     * returns all players
+     * @return
+     */
     public List<Player> getAll() {
         List<Player> list = playerRepository.findAll();
         if (list.size() == 0) {
@@ -33,6 +37,16 @@ public class PlayerService {
         }
         return list;
     }
+
+    public List<Player> getPaginated(int page, int limit) {
+        List<Player> list = playerRepository.fetchPaginatedPlayers(limit, (page - 1) * limit);
+        System.out.println(list);
+        if (list.size() == 0) {
+            throw new RequestCustomException("Wrong parameters", 404);
+        }
+        return list;
+    }
+
 
     public Player getById(Long id) {
         Player player = playerRepository.findPlayerById(id);

@@ -7,6 +7,7 @@ import com.big.backend.modelsDto.PlayerElWarDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +35,10 @@ public class PlayerController {
 
     //returns list of dto for player
     @GetMapping()
-    public ResponseEntity<List<PlayerDto>> getAll() {
-        List<PlayerDto> list = playerService.getAll().stream().map(Player::toDto).collect(Collectors.toList());
+    public ResponseEntity<List<PlayerDto>> getAll(@Param("page") int page, @Param("limit") int limit) {
+//        List<PlayerDto> list = playerService.getAll().stream().map(Player::toDto).collect(Collectors.toList());
+        System.out.println("lol" + page + "" + limit);
+        List<PlayerDto> list = playerService.getPaginated(page, limit).stream().map(Player::toDto).collect(Collectors.toList());
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
