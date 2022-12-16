@@ -64,27 +64,13 @@ public class EwteamController {
 
     //region CODEBOOKS
 
-    @GetMapping(path = "/alliance-rank")
-    public ResponseEntity<?> getAllyRank(){
-        var res = elWarTeamService.getAllyRanks().toArray();
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/front-row")
-    public ResponseEntity<?> getFrontrow(){
-        var res = elWarTeamService.getFrontRow();
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/back-row")
-    public ResponseEntity<?> getBackRow(){
-        var res = elWarTeamService.getBackRow();
-        return new ResponseEntity<>(res, HttpStatus.OK);
-    }
-
-    @GetMapping(path = "/merit-rank")
-    public ResponseEntity<?> getMeritRank() {
-        var res = elWarTeamService.getMeritRank();
+    /**
+     * returns all codebooks including elite war teams
+     * @return
+     */
+    @GetMapping(path = "/code-books")
+    public ResponseEntity<?> getCodeBooks() {
+        var res = elWarTeamService.getCodeBooks();
         return new ResponseEntity<>(res, HttpStatus.OK);
     }
 

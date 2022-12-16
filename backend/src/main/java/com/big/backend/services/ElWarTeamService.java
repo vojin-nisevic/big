@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -130,6 +131,25 @@ public class ElWarTeamService {
     public List<MeritRank> getMeritRank() {
         try {
             return meritRankRepository.findAll();
+        }
+        catch (Exception e) {
+            throw new RequestCustomException(e.getMessage(), 500);
+        }
+    }
+
+    /**
+     * returns all codebooks including elite war teams
+     * @return
+     */
+    public HashMap<String, Object> getCodeBooks() {
+        var result = new HashMap<String, Object>();
+        try {
+            result.put("allianceRank", allianceRankRepository.findAll());
+            result.put("backRow", backRowRepository.findAll());
+            result.put("frontRow", frontRowRepository.findAll());
+            result.put("meritRank", meritRankRepository.findAll());
+            result.put("elWarTeam", elWarTeamRepository.findAll());
+            return result;
         }
         catch (Exception e) {
             throw new RequestCustomException(e.getMessage(), 500);
