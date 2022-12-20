@@ -39,6 +39,7 @@ public class PlayerController {
 //        List<PlayerDto> list = playerService.getAll().stream().map(Player::toDto).collect(Collectors.toList());
         System.out.println("lol" + page + "" + limit);
         List<PlayerDto> list = playerService.getPaginated(page, limit).stream().map(Player::toDto).collect(Collectors.toList());
+        System.out.println("LIST: " + list);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -60,7 +61,11 @@ public class PlayerController {
     }
 
     @PutMapping(path = "/edit/{id}")
-    public ResponseEntity<Player> edit(@RequestBody Player player) {
+    public ResponseEntity<Player> edit(@RequestBody Player player, @PathVariable("id") Long id) {
+        //id in path and id in object must match
+        if (id != player.getId()) {
+            throw new RequestCustomException("Wrong id!", 500);
+        }
         Player player1 = playerService.edit(player);
         return new ResponseEntity<>(player1, HttpStatus.OK);
     }
