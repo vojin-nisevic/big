@@ -149,6 +149,7 @@ public class ElWarTeamService {
             result.put("frontRow", frontRowRepository.findAll());
             result.put("meritRank", meritRankRepository.findAll());
             result.put("elWarTeam", elWarTeamRepository.findAll());
+            result.put("numberOfPlayers", playerRepository.countById());
             return result;
         }
         catch (Exception e) {

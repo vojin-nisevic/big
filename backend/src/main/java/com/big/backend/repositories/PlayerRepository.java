@@ -17,6 +17,9 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
     Player findPlayerByOriginalNameOrCurrentName(String originalName, String currentName);
     List<Player> findPlayerByewTeam(ElWarTeam elWarTeam);
 
+    @Query(value = "SELECT COUNT(*) FROM Player", nativeQuery = true)
+    int countById();
+
     @Query(value = "SELECT * FROM Player order by current_name offset :offset limit :limit" , nativeQuery = true)
     @Transactional
     List<Player> fetchPaginatedPlayers(int limit, int offset);
