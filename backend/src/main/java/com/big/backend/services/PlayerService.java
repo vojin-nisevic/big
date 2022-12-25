@@ -11,6 +11,7 @@ import com.big.backend.repositories.ElWarTeamRepository;
 import com.big.backend.repositories.PlayerRepository;
 
 import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -27,15 +28,26 @@ public class PlayerService {
     }
 
     /**
-     * returns all players
+     * returns all players or search result, both paginated
      * @return
      */
-    public List<Player> getAll() {
-        List<Player> list = playerRepository.findAll();
-        if (list.size() == 0) {
-            throw new RequestCustomException("There are no players in the database", 404);
+    public HashMap<String, Object> getAll(int page, int limit, String search) {
+        try {
+            var players = playerRepository.getPaginatedSearch(limit, (page - 1) * limit, "%" + search + "%");
+            var numbers = playerRepository.getNumbersForSearch("%" + search + "%");
+            var result = new HashMap<String, Object>();
+            result.put("numberOfPlayers", numbers);
+            result.put("players", players);
+            return result;
         }
-        return list;
+        catch (Exception e) {
+            throw new RequestCustomException(e.getMessage());
+        }
+//        List<Player> list = playerRepository.findAll();
+//        if (list.size() == 0) {
+//            throw new RequestCustomException("There are no players in the database", 404);
+//        }
+//        return list;
     }
 
     public List<Player> getPaginated(int page, int limit) {
@@ -109,6 +121,15 @@ public class PlayerService {
             playerRepository.updateElWarTeam(p,team);
         }
     }
+
+//    public HashMap<String, Object> testSearch(int page, int limit, String search) {
+//        var players = playerRepository.getPaginatedSearch(limit, (page - 1) * limit, "%" + search + "%");
+//        var numbers = playerRepository.getNumbersForSearch("%" + search + "%");
+//        var result = new HashMap<String, Object>();
+//        result.put("numberOfPlayers", numbers);
+//        result.put("players", players);
+//        return result;
+//    }
 
 
 }

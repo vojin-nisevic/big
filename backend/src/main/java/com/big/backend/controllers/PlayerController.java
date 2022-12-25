@@ -35,12 +35,9 @@ public class PlayerController {
 
     //returns list of dto for player
     @GetMapping()
-    public ResponseEntity<List<PlayerDto>> getAll(@Param("page") int page, @Param("limit") int limit) {
-//        List<PlayerDto> list = playerService.getAll().stream().map(Player::toDto).collect(Collectors.toList());
-        System.out.println("lol" + page + "" + limit);
-        List<PlayerDto> list = playerService.getPaginated(page, limit).stream().map(Player::toDto).collect(Collectors.toList());
-        System.out.println("LIST: " + list);
-        return new ResponseEntity<>(list, HttpStatus.OK);
+    public ResponseEntity<?> getAll(@Param("page") int page, @Param("limit") int limit, @Param("search") String search) {
+        var result = playerService.getAll(page, limit, search);
+        return new ResponseEntity<>( result, HttpStatus.OK);
     }
 
     @PostMapping(path = "/add")
@@ -70,8 +67,6 @@ public class PlayerController {
         return new ResponseEntity<>(player1, HttpStatus.OK);
     }
 
-
-
     /**
      * changing team of players
      * @param players array of players
@@ -90,8 +85,6 @@ public class PlayerController {
         return true;
     }
 
-
-
     //returns the list of ElWarDto players
     @GetMapping(path = "/byteam/{id}")
     public ResponseEntity<List<PlayerElWarDto>> findPlayersByTeam(@PathVariable("id") Long id) {
@@ -101,9 +94,6 @@ public class PlayerController {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
         List<PlayerElWarDto> listResult = list.stream().map(Player::toElWarDto).collect(Collectors.toList());
-//        if (list.size() == 0){
-//            throw new RequestCustomException("No players belonging to this team", 404);
-//        }
         return new ResponseEntity<>(listResult, HttpStatus.OK);
     }
 }
