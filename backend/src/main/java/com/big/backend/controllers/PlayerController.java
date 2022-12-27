@@ -87,13 +87,11 @@ public class PlayerController {
 
     //returns the list of ElWarDto players
     @GetMapping(path = "/byteam/{id}")
-    public ResponseEntity<List<PlayerElWarDto>> findPlayersByTeam(@PathVariable("id") Long id) {
+    public ResponseEntity<?> findPlayersByTeam(@PathVariable("id") Long id, @Param("in") boolean in,
+                                                                  int page, int limit) {
         System.out.println("TEST");
-        List<Player> list = playerService.findPlayerByElWarTeam(id);
-        if (list.size() == 0) {
-            return new ResponseEntity<>(null, HttpStatus.OK);
-        }
-        List<PlayerElWarDto> listResult = list.stream().map(Player::toElWarDto).collect(Collectors.toList());
-        return new ResponseEntity<>(listResult, HttpStatus.OK);
+        var result = in ? playerService.findPlayerByElWarTeam(id, page, limit):
+                playerService.findPlayerByElWarTeamNotIn(id, page, limit);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

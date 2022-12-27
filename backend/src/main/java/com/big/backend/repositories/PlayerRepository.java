@@ -1,12 +1,11 @@
 package com.big.backend.repositories;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.big.backend.models.Player;
 import com.big.backend.models.ElWarTeam;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,6 +16,42 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
 
     Player findPlayerByOriginalNameOrCurrentName(String originalName, String currentName);
     List<Player> findPlayerByewTeam(ElWarTeam elWarTeam);
+
+    /**
+     * result is paginated list of players that belong to team with id parameter
+     * @param id id of team
+     * @param limit limit for pagination
+     * @param offset offset for pagination
+     * @return List<Player>
+     */
+    @Query(value = "select * from player where ewteam_id = :id order by current_name offset :offset limit :limit", nativeQuery = true)
+    List<Player> findAllByElWarTeamIn(Long id, int limit, int offset);
+
+    /**
+     * result is paginated list of players that not belong to team with id parameter
+     * @param id id of team
+     * @param limit limit for pagination
+     * @param offset offset for pagination
+     * @return List<Player>
+     */
+    @Query(value = "select * from player where ewteam_id != :id order by current_name offset :offset limit :limit", nativeQuery = true)
+    List<Player> findAllByElWarTeamNotIn(@Param("id") Long id, @Param("limit") int limit, @Param("offset") int offset);
+
+    /**
+     * help query for finding total number of players in team
+     * @param id Long team id
+     * @return int
+     */
+    @Query(value = "select count(*) from player where ewteam_id = ?1", nativeQuery = true)
+    int countPlayerInTeam(Long id);
+
+    /**
+     * help query for finding total number of players not in team
+     * @param id Long team id
+     * @return int
+     */
+    @Query(value = "select count(*) from player where ewteam_id != :id", nativeQuery = true)
+    int countPlayerNotInTeam(Long id);
 
     @Query(value = "SELECT COUNT(*) FROM Player", nativeQuery = true)
     int countById();

@@ -13,6 +13,7 @@ import com.big.backend.repositories.PlayerRepository;
 import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
@@ -94,13 +95,60 @@ public class PlayerService {
         playerRepository.delete(player);
     }
 
-    public List<Player> findPlayerByElWarTeam(Long team) {
-        ElWarTeam elWarTeam = elWarTeamRepository.findEwteamById(team);
-        List<Player> players = playerRepository.findPlayerByewTeam(elWarTeam);
-//        if (players == null || players.size() == 0) {
-//            throw new RequestCustomException("Team: " + elWarTeam.getName() + " has no players!");
-//        }
-        return players;
+    /**
+     * returns player in the team
+     * @param team Long team id
+     * @param page int page for pagination offset
+     * @param limit int limit for pagination offset
+     * @return HasHMap <PlayerDto, int>
+     */
+    public HashMap<String, Object> findPlayerByElWarTeam(Long team, int page, int limit) {
+        // check if team exists
+        var checkTeam = elWarTeamRepository.findEwteamById(team);
+        if (checkTeam == null) {
+            throw new RequestCustomException("There is no such elite war team!", 404);
+        }
+
+        try {
+            var list = playerRepository.findAllByElWarTeamIn(team, limit, (page - 1) * limit);
+            var players = list.stream().map(Player::toElWarDto).collect(Collectors.toList());
+            var result = new HashMap<String, Object>();
+            var numberOfPlayers = playerRepository.countPlayerInTeam(team);
+            result.put("numberOfPlayers", numberOfPlayers);
+            result.put("players", players);
+            return result;
+        }
+        catch (Exception e) {
+            throw new RequestCustomException(e.getMessage());
+        }
+    }
+
+    /**
+     * returns players not in team
+     * @param team Long team id
+     * @param limit int limit for pagination
+     * @param page int page for offset pagination
+     * @return HasHMap <PlayerDto, int>
+     */
+    public HashMap<String, Object> findPlayerByElWarTeamNotIn(Long team, int page, int limit) {
+        // check if team exists
+        var checkTeam = elWarTeamRepository.findEwteamById(team);
+        if (checkTeam == null) {
+            throw new RequestCustomException("There is no such elite war team!", 404);
+        }
+
+        try {
+            var list = playerRepository.findAllByElWarTeamNotIn(team, limit, (page - 1) * limit);
+            var players = list.stream().map(Player::toElWarDto).collect(Collectors.toList());
+            var result = new HashMap<String, Object>();
+            var numberOfPlayers = playerRepository.countPlayerNotInTeam(team);
+            result.put("numberOfPlayers", numberOfPlayers);
+            result.put("players", players);
+            return result;
+        }
+        catch (Exception e) {
+            throw new RequestCustomException(e.getMessage());
+        }
     }
 
     /**
@@ -109,10 +157,6 @@ public class PlayerService {
      * @param players Long: array of players id's
      */
     public void updateElWarTeam(Long team, Long[] players) {
-//        for (Long p: players
-//             ) {
-//            LOGGER.info("Array: " + p);
-//        }
         if (team == null || players == null) {
             throw new RequestCustomException("Bad request", 400);
         }
@@ -121,15 +165,4 @@ public class PlayerService {
             playerRepository.updateElWarTeam(p,team);
         }
     }
-
-//    public HashMap<String, Object> testSearch(int page, int limit, String search) {
-//        var players = playerRepository.getPaginatedSearch(limit, (page - 1) * limit, "%" + search + "%");
-//        var numbers = playerRepository.getNumbersForSearch("%" + search + "%");
-//        var result = new HashMap<String, Object>();
-//        result.put("numberOfPlayers", numbers);
-//        result.put("players", players);
-//        return result;
-//    }
-
-
 }
